@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress # Nom de l'Ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: / # Annotation pour rediriger toutes les requêtes vers /
+spec:
+  rules:
+  - host: my-app.example.com # Nom de domaine pour l'Ingress
+    http:
+      paths:
+      - path: / # Chemin pour lequel cet Ingress répondra
+        pathType: Prefix
+        backend:
+          service:
+            name: my-service # Nom du service auquel l'Ingress redirige le trafic
+            port:
+              number: 80 # Port du service

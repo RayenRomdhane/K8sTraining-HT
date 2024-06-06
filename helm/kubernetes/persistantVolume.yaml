@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-pv # Nom du PersistentVolume
+spec:
+  capacity:
+    storage: 5Gi # Capacité de stockage
+  accessModes:
+    - ReadWriteOnce # Mode d'accès
+  hostPath:
+    path: /mnt/data # Chemin sur l'hôte

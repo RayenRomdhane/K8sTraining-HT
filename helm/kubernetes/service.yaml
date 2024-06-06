@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service # Nom du service
+  labels:
+    app: my-app # Étiquettes pour identifier le service
+spec:
+  selector:
+    app: my-app # Sélecteur pour correspondre aux pods avec cette étiquette
+  ports:
+    - protocol: TCP
+      port: 80 # Port que le service expose
+      targetPort: 80 # Port sur le pod auquel le service redirige le trafic
+  type: ClusterIP # Type de service, le rendant accessible uniquement dans le cluster

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment # Nom du déploiement
+  labels:
+    app: my-app # Étiquettes pour identifier le déploiement
+    environment: production # Étiquette supplémentaire pour l'environnement
+  annotations:
+    description: "Un déploiement exemple à des fins éducatives" # Annotation avec une description
+spec:
+  replicas: 3 # Nombre de répliques de pods
+  selector:
+    matchLabels:
+      app: my-app # Sélecteur pour correspondre aux pods avec cette étiquette
+  template:
+    metadata:
+      labels:
+        app: my-app # Étiquettes à appliquer aux pods
+        environment: production # Étiquette supplémentaire pour l'environnement
+    spec:
+      containers:
+      - name: my-container # Nom du conteneur
+        image: nginx:latest # Image Docker pour le conteneur
+        ports:
+        - containerPort: 80 # Port exposé par le conteneur
+        env:
+        - name: ENV_VAR
+          value: "some-value" # Variable d'environnement pour le conteneur
+        - name: CONFIG_PATH
+          value: "/etc/config/config.json" # Une autre variable d'environnement pour le conteneur
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config # Chemin de montage pour le volume à l'intérieur du conteneur
+        resources:
+          limits:
+            memory: "256Mi" # Limite maximale de mémoire
+            cpu: "500m" # Limite maximale de CPU
+          requests:
+            memory: "128Mi" # Mémoire demandée
+            cpu: "250m" # CPU demandé
+        livenessProbe:
+          httpGet:
+            path: / # Chemin pour la sonde de vivacité
+            port: 80 # Port pour la sonde de vivacité
+          initialDelaySeconds: 30 # Délai initial avant la première vérification
+          periodSeconds: 10 # Intervalle entre les vérifications
+        readinessProbe:
+          httpGet:
+            path: / # Chemin pour la sonde de préparation
+            port: 80 # Port pour la sonde de préparation
+          initialDelaySeconds: 5 # Délai initial avant la première vérification
+          periodSeconds: 10 # Intervalle entre les vérifications
+      volumes:
+      - name: config-volume
+        configMap:
+          name: my-configmap # ConfigMap fournissant les données de configuration
+ 

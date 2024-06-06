@@ -1,0 +1,17 @@
+replicas: 3
+appName: my-app
+environment: production
+description: "Un déploiement exemple à des fins éducatives"
+
+containerName: my-container
+image:
+  repository: nginx
+  tag: latest
+containerPort: 80
+
+configPath: /etc/config
+env:
+  - name: ENV_VAR
+    value: "some-value"
+  - name: CONFIG_PATH
+    value: "/etc/config/config.json"
